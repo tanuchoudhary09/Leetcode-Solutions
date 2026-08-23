@@ -1,32 +1,32 @@
 class Solution {
 public:
-    bool dfs(int r,vector<vector<int>>&graph,vector<int>&check,vector<int>&path,vector<int>&vst){
-        vst[r] = 1;
-        path[r] = 1;
-        check[r] = 0;
-        for(auto it: graph[r] ){
-            if(!vst[it]) {
-                if(dfs(it,graph,check,path,vst)) return true;
-            }
-            else if(path[it]) return true;
-        }
-        check[r] = 1;
-        path[r] = 0;
-        return false;
-    }
+    //using topo and bfs
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
-        vector<int> ans;
-        vector<int> vst(n,0);
-        vector<int> path(n,0);
-        vector<int> check(n,0);
+        vector<vector<int>>adj(n);
+        vector<int> indegree(n,0);
+        vector<int>topo;
         for(int i=0;i<n;i++){
-            if(!vst[i]) dfs(i,graph,check,path,vst);
-            //if(!vst[i][1]) dfs();
+            for(auto edge:graph[i]){
+                adj[edge].push_back(i);
+                indegree[i]++;
+            }
         }
+        queue<int>q;
         for(int i=0;i<n;i++){
-            if(check[i]==1) ans.push_back(i);
+            if(indegree[i]==0) q.push(i);
         }
-        return ans;
+        //int cnt = 0;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto it:adj[node]){
+                indegree[it]--;
+                if(indegree[it]==0) q.push(it);
+            }
+        }
+        sort(topo.begin(),topo.end());
+        return topo;
     }
 };
