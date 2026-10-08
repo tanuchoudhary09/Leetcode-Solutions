@@ -2,22 +2,10 @@ class Solution {
 public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
-        int sum =0;
-        for(int i =0;i<n-1;i++){
-            if(!nums[i]){
-                bool flag = false;
-                for(int j =i;j>=0;j--){
-                    if(nums[j]>(i-j)){
-                        flag=true;break;
-                    }
-                }
-                if(!flag) return false;
-            }
+        int goal = n-1;
+        for(int i = n-2;i>=0;i--){
+            if(i + nums[i]>=goal) goal = i;
         }
-        return true;
+        return goal==0;
     }
 };
-//stack-no
-//sliding window-no
-//maths
-// greedy
