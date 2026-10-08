@@ -9,7 +9,6 @@ public:
             if(open == 0) flag = true;
             if(c=='(') open++;
             else open--;
-            std::cout<<open;
             if(!flag && open>=1) ans += c;
         }
         return ans;
