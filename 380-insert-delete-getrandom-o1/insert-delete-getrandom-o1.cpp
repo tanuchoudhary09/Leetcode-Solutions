@@ -1,13 +1,14 @@
 class RandomizedSet {
 public:
-    vector<int>v;
+    //we can't use set/map bcs the random fn for a set doesnt necessarily take O(1) time in some cases
     unordered_map<int,int>m;
+    vector<int>v;
     RandomizedSet() {
-
+        
     }
     
     bool insert(int val) {
-        if(m.find(val)==m.end()){
+        if(!m.count(val)){
             v.push_back(val);
             m[val] = v.size()-1;
         }else return false;
@@ -15,18 +16,18 @@ public:
     }
     
     bool remove(int val) {
-        if(v.size()==0) return false;
-        if(m.find(val)==m.end()) return false;
-        int n =m[val];
-        m[v[v.size()-1]] = n;
-        v[n]=v[v.size()-1];
+        if(v.size()==0 || (!m.count(val))) return false;
+        int x = m[val];
+        int y = v[v.size()-1];
+        v[x] = y;
+        m[y] = x;
         v.pop_back();
         m.erase(val);
         return true;
     }
     
     int getRandom() {
-       return v[rand() % v.size()]; //random fn
+        return v[rand() % v.size()];
     }
 };
 
