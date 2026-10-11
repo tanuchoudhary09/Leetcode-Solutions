@@ -1,19 +1,11 @@
 class Solution {
 public:
     string intToRoman(int num) {
-        string t = to_string(num);
-        int n = t.length();
-        vector<pair<int,string>>dict = {
-            {1000,"M"},{900,"CM"},{500,"D"},{400,"CD"},{100,"C"},{90,"XC"},{50,"L"},{40,"XL"},{10,"X"},{9,"IX"},{5,"V"},{4,"IV"},{1,"I"}
-        };
-        string ans = "";
-        for(auto [key,sym] : dict){
-            if(num==0) break;//not given in TCs but jic
-            while(num>=key){
-                ans += sym;
-                num -= key;
-            }
-        }
+        vector<string> th = {"","M","MM","MMM","MMMM"};
+        vector<string> hun = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+        vector<string> tens = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+        vector<string> ones = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
+        string ans = th[num/1000] + hun[(num/100) % 10] + tens[(num/10) % 10] + ones[num % 10];
         return ans;
     }
 };
