@@ -2,16 +2,20 @@ class Solution {
 public:
     string maxSumOfSquares(int num, int sum) {
         string ans = "";
-        if(sum > num * 9) return ans;
-        for(int i=0;i<num;i++){
-            if(sum >= 9){
-                ans += '9';
-                sum -= 9;
-            }else{
-                ans += ('0' + sum);
-                sum -= sum;
+        int val = 0;
+        while(num--){
+            int k = 10;
+            while(k--){
+                if(val + k > sum) continue;
+                else {
+                    //std::cout<<val + k <<" ";
+                    ans += '0' + k;
+                    val += k;
+                    break;
+                }
             }
         }
+        if(val!=sum) return "";
         return ans;
     }
 };
