@@ -1,25 +1,28 @@
 class Solution {
 public:
-    bool wordPattern(string pattern, string s){
-        int n = pattern.length(),k = s.length(),i=0,j=0;
-        unordered_map<char,string>m;
-        unordered_map<string,char>m1;
-        while(j<k){
-            string t="";
-            while(j<k && s[j]!=' ') {
-                t+=s[j++];
+    bool wordPattern(string pattern, string s) {
+        int n = pattern.length();
+        int m = s.length();
+        vector<string>t;
+        string temp;
+        for(int i = 0; i < m; i++){
+            temp = "";
+            while(i < m && s[i]!=' ') {
+                temp += s[i];
+                i++;
             }
-            std::cout<<t;
-            j++;
-            if(i>=n) return false;
-            if(m.find(pattern[i])!=m.end()){
-                if(m[pattern[i]]!=t) return false;
-            }else m[pattern[i]]=t;
-            if(m1.find(t)!=m1.end()){
-                if(m1[t]!=pattern[i]) return false;
-            }else m1[t]=pattern[i];
-            i++; 
+            t.push_back(temp);
+            
         }
-        return i==n;
+        if(t.size()!=n) return false;
+        unordered_map<char,string>m1;
+        unordered_map<string,char>m2;
+        for(int i = 0; i < n; i++){
+            if(m1.count(pattern[i]) && m1[pattern[i]] != t[i]) return false;
+            m1[pattern[i]] = t[i];
+            if(m2.count(t[i]) && m2[t[i]] != pattern[i]) return false;
+            m2[t[i]] = pattern[i];
+        }
+        return true;
     }
 };
